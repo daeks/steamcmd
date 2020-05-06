@@ -1,8 +1,11 @@
 FROM ubuntu:latest
 LABEL maintainer="github.com/daeks"
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ARG USERNAME=steam
+ARG USERID=1000
+ARG GROUPID=1000
+ARG STEAMCMDPKG=steamcmd_linux.tar.gz
+ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/${STEAMCMDPKG}
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV STEAMCMDDIR /home/steam/steamcmd
@@ -19,13 +22,13 @@ RUN apt-get install -y curl lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*^
 
-RUN groupadd -g ${GROUP_ID} steam &&\
-  useradd -m -g ${GROUP_ID} -u ${USER_ID} steam
+RUN groupadd -g ${GROUPID} ${USERNAME} &&\
+  useradd -m -g ${GROUPID} -u ${USERID} ${USERNAME}
 
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
 
-RUN su - steam -c "curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxf - &&\
-  rm -f steamcmd_linux.tar.gz"
+RUN su - ${USERNAME} -c "curl -sqL ${STEAMCMDURL} | tar zxf - &&\
+  rm -f ${STEAMCMDPKG}"
 
 USER steam
