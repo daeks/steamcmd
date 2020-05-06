@@ -9,6 +9,7 @@ ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/${STEAMCMDPKG}
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV STEAMCMDDIR /home/steam/steamcmd
+ENV MODE COMPOSE
 
 RUN apt-get update &&\
   apt-get upgrade -y &&\
@@ -34,4 +35,6 @@ USER steam
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
 
-RUN ${STEAMCMDDIR}/steamcmd.sh +login anonymous +quit
+RUN if [ "$BUILD" = "INSTALL" ]; then set -x &&\
+    "${STEAMCMDDIR}/steamcmd.sh" +login anonymous +quit; \
+  fi
