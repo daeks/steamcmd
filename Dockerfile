@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-LABEL maintainer="daeks"
+LABEL maintainer="github.com/daeks"
 
 ARG USER_ID=1000
 ARG GROUP_ID=1000
