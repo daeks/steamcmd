@@ -18,7 +18,7 @@ RUN apt-get update &&\
 
 ENV LANG en_US.utf8
 
-RUN apt-get install -y curl lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
+RUN apt-get install -y curl lib32stdc++6 lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
   apt-get autoremove -y &&\
   apt-get clean &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*^
