@@ -35,6 +35,6 @@ USER steam
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
 
-RUN if [ "$BUILD" = "INSTALL" ]; then set -x &&\
+RUN if [ "$MODE" = "INSTALL" ]; then set -x &&\
     "${STEAMCMDDIR}/steamcmd.sh" +login anonymous +quit; \
   fi
