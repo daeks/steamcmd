@@ -26,5 +26,5 @@ USER steam
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
 
-RUN curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxf - &&\
-  rm -f steamcmd_linux.tar.gz
+RUN su steam -c "curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxf - &&\
+  rm -f steamcmd_linux.tar.gz"
