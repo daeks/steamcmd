@@ -25,7 +25,8 @@ RUN apt-get install -y curl lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
 RUN groupadd -g ${GROUPID} ${USERNAME} &&\
   useradd -m -g ${GROUPID} -u ${USERID} ${USERNAME}
 
-RUN su - ${USERNAME} -c "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} &&\
+RUN set -x &&\
+  su - ${USERNAME} -c "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} &&\
   curl -sqL ${STEAMCMDURL} | tar zxf - &&\
   rm -f ${STEAMCMDPKG}"
 
