@@ -22,9 +22,10 @@ RUN apt-get install -y curl lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
 RUN groupadd -g ${GROUP_ID} steam &&\
   useradd -m -g ${GROUP_ID} -u ${USER_ID} steam
 
-USER steam
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
 
-RUN su steam -c "curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxf - &&\
+RUN su - steam -c "curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar zxf - &&\
   rm -f steamcmd_linux.tar.gz"
+
+USER steam
