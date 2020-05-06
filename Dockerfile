@@ -29,6 +29,8 @@ RUN echo "Downloading $STEAMCMDURL"
 RUN su - ${USERNAME} -c "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} &&\
   curl -sqL ${STEAMCMDURL} | tar zxf - &&\
   rm -f ${STEAMCMDPKG}"
+  
+RUN ls -l ${STEAMCMDDIR}
 
 USER steam
 WORKDIR $STEAMCMDDIR
