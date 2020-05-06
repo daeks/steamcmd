@@ -28,7 +28,8 @@ RUN groupadd -g ${GROUPID} ${USERNAME} &&\
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
 
-RUN su - ${USERNAME} -c "curl -sqL ${STEAMCMDURL} | tar zxf - &&\
+RUN su - ${USERNAME} -c "cd ${STEAMCMDDIR} &&\
+  curl -sqL ${STEAMCMDURL} | tar zxf - &&\
   rm -f ${STEAMCMDPKG}"
 
 USER steam
