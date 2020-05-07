@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:buster-slim
 LABEL maintainer="github.com/daeks"
 
 ARG USERNAME=steam
@@ -11,25 +11,29 @@ ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/$STEAMCMDPKG
 ENV DEBIAN_FRONTEND noninteractive
 ENV STEAMCMDDIR /home/steam/steamcmd
 
-RUN apt-get update &&\
-  apt-get upgrade -y &&\
-  apt-get install -y locales &&\
-  localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 
-ENV LANG en_US.utf8
-
-RUN apt-get install -y curl lib32stdc++6 lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
-  apt-get autoremove -y &&\
-  apt-get clean &&\
-  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*^
-
-RUN groupadd -g $GROUPID $USERNAME &&\
-  useradd -m -g $GROUPID -u $USERID $USERNAME
+ENV LANG en_US.UTF-8
 
 RUN set -x &&\
-  su - $USERNAME -c "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} &&\
-  curl -sqL ${STEAMCMDURL} | tar zxf - &&\
-  rm -f ${STEAMCMDPKG}"
+  apt-get update && apt-get upgrade -y &&\
+  apt-get install -y --no-install-recommends --no-install-suggests \
+    wget ca-certificates lib32stdc++6 lib32gcc1
+  
+RUN set -x &&\  
+  groupadd -g $GROUPID $USERNAME &&\
+  useradd -m -g $GROUPID -u $USERID $USERNAME
+  
+RUN set -x &&\
+  su $USERNAME -c \
+    "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} \
+    && wget -qO- '${STEAMCMDURL}' | tar zxf -"
+    
+RUN set -x &&\
+  apt-get remove --purge -y wget &&\
+  apt-get clean autoclean &&\
+  apt-get autoremove -y &&\
+  rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*^
 
 USER $USERNAME
 
