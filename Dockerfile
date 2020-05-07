@@ -30,6 +30,6 @@ RUN set -x &&\
   curl -sqL ${STEAMCMDURL} | tar zxf - &&\
   rm -f ${STEAMCMDPKG}"
 
-USER ${USERNAME}
+#USER ${USERNAME}
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
