@@ -1,9 +1,10 @@
-FROM ubuntu:latest
+FROM debian:buster-slim
 LABEL maintainer="github.com/daeks"
 
 ARG USERNAME=steam
 ARG USERID=1000
 ARG GROUPID=1000
+
 ARG STEAMCMDPKG=steamcmd_linux.tar.gz
 ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/${STEAMCMDPKG}
 
@@ -12,14 +13,14 @@ ENV STEAMCMDDIR /home/steam/steamcmd
 
 RUN apt-get update &&\
   apt-get upgrade -y &&\
-  apt-get install -y locales &&\
+  apt-get install -y --no-install-recommends --no-install-suggests locales &&\
   localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 ENV LANG en_US.utf8
 
-RUN apt-get install -y curl lib32stdc++6 lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
+RUN apt-get install -y --no-install-recommends --no-install-suggests curl lib32stdc++6 lib32gcc1 libsdl2-dev libsdl2-2.0-0 &&\
   apt-get autoremove -y &&\
-  apt-get clean &&\
+  apt-get clean autoclean &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*^
 
 RUN groupadd -g ${GROUPID} ${USERNAME} &&\
@@ -30,6 +31,6 @@ RUN set -x &&\
   curl -sqL ${STEAMCMDURL} | tar zxf - &&\
   rm -f ${STEAMCMDPKG}"
 
-#USER ${USERNAME}
+USER ${USERNAME}
 WORKDIR $STEAMCMDDIR
 VOLUME $STEAMCMDDIR
