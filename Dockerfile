@@ -14,7 +14,7 @@ ENV STEAMCMDDIR /home/steam/steamcmd
 RUN set -x &&\
   apt-get update && apt-get upgrade -y &&\
   apt-get install -y --no-install-recommends --no-install-suggests \
-    locales wget ca-certificates lib32stdc++6 lib32gcc1 libsdl1.2
+    locales wget ca-certificates lib32stdc++6 lib32gcc1 libsdl1.2debian
     
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 
