@@ -3,7 +3,6 @@ LABEL maintainer="github.com/daeks"
 
 ARG USERNAME=steam
 ARG USERID=1000
-ARG GROUPID=1000
 
 ARG STEAMCMDPKG=steamcmd_linux.tar.gz
 ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/$STEAMCMDPKG
@@ -19,11 +18,9 @@ RUN set -x &&\
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
 
 ENV LANG en_US.UTF-8
-
-RUN groupadd -g ${GROUPID} ${USERNAME} &&\
-  useradd -m -g ${GROUPID} -u ${USERID} ${USERNAME}
   
 RUN set -x &&\
+  useradd -m -u $USERID $USERNAME &&\
   su $USERNAME -c \
     "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} \
       && wget -qO- '${STEAMCMDURL}' | tar zxf -"
