@@ -7,8 +7,9 @@ ARG USERID=1000
 ARG STEAMCMDPKG=steamcmd_linux.tar.gz
 ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/$STEAMCMDPKG
 
-ENV DEBIAN_FRONTEND noninteractive
 ENV STEAMCMDDIR /home/steam/steamcmd
+
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -x &&\
   apt-get update && apt-get upgrade -y &&\
@@ -16,7 +17,6 @@ RUN set -x &&\
     locales wget ca-certificates lib32stdc++6 lib32gcc1 libsdl1.2debian
     
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
-
 ENV LANG en_US.UTF-8
   
 RUN set -x &&\
@@ -32,7 +32,5 @@ RUN set -x &&\
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*^
 
 USER $USERNAME
-
 WORKDIR $STEAMCMDDIR
-
 VOLUME $STEAMCMDDIR
