@@ -1,13 +1,13 @@
 FROM debian:buster-slim
 LABEL maintainer="github.com/daeks"
 
-ARG USERNAME=steam
+ENV USERNAME=steam
 ARG USERID=1000
 
 ARG STEAMCMDPKG=steamcmd_linux.tar.gz
 ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/$STEAMCMDPKG
 
-ENV STEAMCMDDIR /home/steam/steamcmd
+ENV STEAMCMDDIR /home/$USERNAME/steamcmd
 
 ENV DEBIAN_FRONTEND noninteractive
 
