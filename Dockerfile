@@ -25,11 +25,8 @@ RUN set -x &&\
   useradd -m -u $USERID $USERNAME &&\
   su $USERNAME -c \
     "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} \
-      && wget -qO- '${STEAMCMDURL}' | tar zxf -"
-
-RUN set -x &&\
-  su $USERNAME -c \
-    && ${STEAMCMDDIR}/steamcmd.sh +quit
+      && wget -qO- '${STEAMCMDURL}' | tar zxf - \
+      && ${STEAMCMDDIR}/steamcmd.sh +quit"
 
 RUN set -x &&\
   apt-get remove --purge -y wget &&\
