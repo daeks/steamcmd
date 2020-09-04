@@ -13,6 +13,7 @@ ENV STEAMCMDDIR $STEAMHOMEDIR/steamcmd
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -x &&\
+  dpkg --add-architecture i386 &&\
   apt-get update && apt-get upgrade -y &&\
   apt-get install -y --no-install-recommends --no-install-suggests \
     procps locales htop nano wget rsync ca-certificates lib32stdc++6=8.3.0-6 lib32gcc1=1:8.3.0-6 libsdl2-2.0-0:i386=2.0.9+dfsg1-1
