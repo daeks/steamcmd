@@ -29,7 +29,7 @@ RUN set -x &&\
 
 RUN set -x &&\
   su $USERNAME -c \
-    && \"./${STEAMCMDDIR}/steamcmd.sh\" +quit
+    && ${STEAMCMDDIR}/steamcmd.sh +quit
 
 RUN set -x &&\
   apt-get remove --purge -y wget &&\
