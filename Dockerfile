@@ -10,8 +10,6 @@ ARG STEAMCMDURL=https://steamcdn-a.akamaihd.net/client/installer/$STEAMCMDPKG
 ENV STEAMHOMEDIR /home/$USERNAME
 ENV STEAMCMDDIR $STEAMHOMEDIR/steamcmd
 
-ENV DEBIAN_FRONTEND noninteractive
-
 RUN set -x &&\
   dpkg --add-architecture i386 &&\
   apt-get update && apt-get upgrade -y &&\
@@ -26,7 +24,11 @@ RUN set -x &&\
   su $USERNAME -c \
     "mkdir -p ${STEAMCMDDIR} && cd ${STEAMCMDDIR} \
       && wget -qO- '${STEAMCMDURL}' | tar zxf - \
-      && ${STEAMCMDDIR}/steamcmd.sh +quit"
+      && ${STEAMCMDDIR}/steamcmd.sh +quit
+      && mkdir -p ${STEAMHOMEDIR}/.steam/sdk32 \
+      && ln -s ${STEAMCMDDIR}/linux32/steamclient.so ${STEAMHOMEDIR}/.steam/sdk32/steamclient.so \
+      && ln -s ${STEAMCMDDIR}/linux32/steamcmd ${STEAMCMDDIR}/linux32/steam \
+      && ln -s ${STEAMCMDDIR}/steamcmd.sh ${STEAMCMDDIR}/steam.sh"
 
 RUN set -x &&\
   apt-get remove --purge -y wget &&\
